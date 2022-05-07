@@ -99,6 +99,34 @@
       
     </div>
     
+    <div class="background">
+      <div class="form">
+        <h2 id="titulo"> Formulario</h2>
+        <form action="" id="survey-form" ></form>
+    
+          <div class="label">
+    
+            <label for="name">
+              <input type="text" id="name" placeholder="inserta nombre" value="<%= ct.nombre%>" required="true">
+            </label><br>
+    
+            <label for="email">
+              <input type="email" id="email" placeholder="inserta email" value="<%= ct.email%>" required="true">
+            </label><br>
+    
+            <div class="comments">
+              <textarea id="comments" name="textarea" value="<%= ct.comentario%>" required="true" rows="10" cols="30"></textarea>
+            </div>
+                    
+            <input type="hidden" value="<%= ct.ip%>"/>
+            <input type="hidden"  value="<%= ct.fecha%>">
+    
+            <div class="submit">
+              <input id="submit" type="submit" value="Enter para ganar"/>
+            </div>
+          </div>
+      </div>
+    </div>
     <!------footer--------->
     <footer>
       <p>José Pérez</p>
@@ -112,6 +140,5 @@
     </footer>
   </body>
 </html>
-
 
 
