@@ -8,6 +8,9 @@
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  
+
   </head>
   <body>
     <p>Inicio del Curriculo Vitae</p>
@@ -107,13 +110,11 @@
               <input name='nombre' type="text"  placeholder="Ingrese su Nombre" value="<%= ct.nombre%>" required="true">
               <input type="email" name='email' placeholder="inserta email" value="<%= ct.email%>" required="true">
               <input  name='comentario' type="text" placeholder="Comentario" value="<%= ct.comentario%>" required="true">
+              <input type="hidden" value="<%= modelo.ipdire%>">
+              <input type="hidden"  value="<%= modelo.fecha%>">
+              <input type="hidden"  value="<%= modelo.geoloca%>">
               
-              <div class="form-group">
-                <div
-                  class="g-recaptcha"
-                  data-sitekey="<%=KEY_PUBLIC%>"
-                ></div>
-              </div>
+              <div class="g-recaptcha" data-sitekey="<%=KEY_RECAP%>">
 
               <input type="hidden" value="<%= ct.ip%>"/>
               <input type="hidden"  value="<%= ct.fecha%>">

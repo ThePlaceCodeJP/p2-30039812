@@ -50,30 +50,96 @@ router.get('/contactos',(req,res)=>{
 	})
 })
 
+
+
+//ip y la feha, junto con la importacion de los datos a la base 
 router.post('/',(req,res)=>{
-  	let today = new Date();
-  	let hours = today.getHours();
-  	let minutes = today.getMinutes();
-  	let seconds = today.getSeconds();
-  	let fech = today.getDate() + '-' + ( today.getMonth() + 1 ) + '-' + today.getFullYear() +' - '+ hours + ':' + minutes + ':' + seconds + ' ';
-	let ip = req.headers["x-forwarded-for"].split(',').pop()??
-	req.ip.split(':').pop();
-  	if (ip){
-	  let list = ip.split(",");
-    ip = list[list.length-1];
- 	 } else {
-	ip = req.connection.remoteAddress;
-  	}
-	const sql="INSERT INTO contacts(email, nombre, comentario, fecha,ip) VALUES (?,?,?,?,?)";
-	const nuevos_mensajes=[req.body.email, req.body.nombre, req.body.comentario,fech,ip];
-	db_run.run(sql, nuevos_mensajes, err =>{
-	if (err){
-		return console.error(err.message);
-	}
-	else{
-		res.redirect("/");
-		}
-	})
+    const responseKey = req.body["g-recaptcha-response"];
+    const secretKey = process.env.KEY_SECRET;
+    const url = 
+      `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${responseKey}`;
+    fetch(url, {
+      method: "post",
+    })
+      .then((response) => response.json())
+      .then((google_response) => {
+          if (google_response.success == true) {
+          let today = new Date();
+          let hours = today.getHours();
+          let minutes = today.getMinutes();
+          let seconds = today.getSeconds();
+          let fecha = today.getDate() + '-' + ( today.getMonth() + 1 ) + '-' + today.getFullYear();
+          let hora = hours + ':' + minutes + ':' + seconds + ' ';
+          let ipdire = req.header('x-forwarded-for') || req.connection.remoteAddress;
+          let ip = req.ip;
+          let geo = geoip.lookup(ip);
+
+          let geoloca = geo.country;
+          let email = req.body.email;
+          let nombre = req.body.nombre;
+          let comentario = req.body.comentario;
+
+          const sql="INSERT INTO contacts(nombre, email, comentario, fecha, ipdire, hora, geoloca) VALUES (?,?,?,?,?,?,?)";
+          const nuevos_mensajes=[nombre,email,comentario,fecha,ip,hora,geoloca];
+
+          db_run.run(sql, nuevos_mensajes, err =>{
+            if (err){
+              return console.error(err.message);
+            } else{
+                res.redirect("/");
+            }
+          })
+
+		  const transporter = nodemailer.createTransport({
+			host: 'smtp.ethereal.email',
+			port: 587,
+			auth: {
+				user: 'jailyn.hane60@ethereal.email',
+				pass: 'BV9eRS95MXb2CcV5DZ'
+			}
+		});
+          const contenidoHTML = `
+            <p>Programacion P2</p>
+            <h3>Información del Cliente/Contacto:</h3>
+            <ul>
+              <li>Nombre: ${nombre}</li>
+              <li>Email: ${email}</li>
+              <li>Comentario: ${comentario}</li>
+              <li>Fecha: ${fecha}</li>
+            <li>Hora: ${hora}</li>
+            <li>IP: ${ipdire}</li>
+            <li>Pais: ${geoloca}</li>
+            </ul>`;
+
+          const send = {
+            from: process.env.EMAIL,
+            to: 'programacion2ais@dispostable.com',
+            subject: 'Informacion del Contacto', 
+            html: contenidoHTML
+          };
+
+          transporter.sendMail(send,(err, info) => {
+            if(err)
+              console.log(err)
+            else
+              console.log(info);
+            })
+        }else{
+  
+                setTimeout(function(){
+              res.redirect("/");        
+              }, 1800);
+              }
+              }).catch((error) => {
+                return res.json({ error });
+            });
+           
+});
+
+router.get('/',(req,res) => {
+  res.render('index.ejs',{modelo:{},
+  KEY_RECAP:process.env.KEY_RECAP
+})
 });
 
 
