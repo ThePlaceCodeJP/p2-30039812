@@ -3,6 +3,105 @@ var router = express.Router();
 const sqlite3=require('sqlite3').verbose();
 const http=require('http');
 const path = require('path');
+const geoip = require('geoip-lite');
+const nodemailer = require('nodemailer');
+const { request } = require('http');
+const fetch = require('node-fetch');
+const passport = require('passport');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const PassportLocal = require('passport-local').Strategy;
+require('../setup/passports-setup.js')
+
+const { I18n } = require('i18n')
+const i18n = new I18n({
+  locales: ['es', 'en'],
+  directory: path.join(__dirname, '/locales'),
+  defaultLocale: 'es',
+});
+
+require('dotenv').config();
+
+router.use(express.urlencoded({extended: true}));
+router.use(cookieParser(process.env.SECRET));
+router.use(session({
+	secret: process.env.SECRET,
+	resave: true,
+	saveUninitialized: true
+}))
+
+router.use(passport.initialize());
+router.use(passport.session());
+
+passport.use( new PassportLocal(function(username, password, done){
+
+	if(username === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD)
+		return done(null,{id: 1, name: "Admin"});
+
+	done(null, false)
+}))
+
+passport.serializeUser(function(user, done){
+	done(null, user.id)
+})
+
+passport.deserializeUser(function(user, done){
+	done(null,{id: 1, name: "Admin"});
+})
+
+
+
+  
+const basededatos=path.join(__dirname,"basededatos","basededatos.db");
+const bd=new sqlite3.Database(basededatos, err =>{ 
+if (err){
+	return console.error(err.message);
+}else{
+	console.log("...");
+}
+})
+
+
+const create="CREATE TABLE IF NOT EXISTS contactos(email VARCHAR(20),nombre VARCHAR(20), comentario TEXT,fecha DATATIME,ip TEXT, pais VARCHAR(15));";
+
+bd.run(create,err=>{
+	if (err){
+	return console.error(err.message);
+}else{
+	console.log("...");
+}
+})
+
+router.get('/login',(req,res)=>{
+	res.render('login.ejs')
+});
+
+router.post('/login', passport.authenticate('local',{
+	successRedirect: "/contactos",
+	failureRedirect: "/login"
+}));
+
+router.get('/google', passport.authenticate('google', {scope: ['profile', 'email']}));
+
+router.get('/google/callback', passport.authenticate('google', {failureRedirect: '/login'}), function(req, res){
+	res.redirect('/contactos');
+})
+
+router.get('/contactos',(req, res, next)=>{
+	if(req.isAuthenticated()) return next();
+
+	res.redirect("/login")
+},(req,res)=>{
+	const sql="SELECT * FROM contactos;";
+	bd.all(sql, [],(err, rows)=>{
+			if (err){
+				return console.error(err.message);
+			}else{
+			res.render("contactos.ejs",{tarea:rows});
+			}
+	})
+})
+
 
 
 const db=path.join(__dirname,"basedb","base.db");
