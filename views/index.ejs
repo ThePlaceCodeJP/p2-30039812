@@ -15,32 +15,27 @@
   <meta property="og:url" content="https://p2-curriculum.herokuapp.com/" />
   <meta property="og:image" content="images/main-img.jpg" />
   
-  <div class="translate">
-    <button onclick="window.location.href='/translate'"><%= __('traducir') %></button>
-  </div>
-
-
 
   </head>
   <body>
-    <p><%=__('InicioCurriculo') %>Inicio del Curriculo Vitae</p>
+    <p><%=__('InicioCurriculo') %></p>
     <div class="hero">
       <nav>
-        <h2 class="logo"><%=__('porta') %>Porta<span><%=__('folio') %>folio</span></h2>
+        <h2 class="logo"><%=__('porta') %><span><%=__('folio') %></span></h2>
         <ul>
-          <li><a href="#"><%=__('inicio') %>Inicio</a></li>
-          <li><a href="#"><%=__('sobreMi') %>Sobre mi</a></li>
-          <li><a href="#"><%=__('formacion') %>Formación</a></li>
-          <li><a href="#"><%=__('habilidades') %>Habilidades</a></li>
-          <li><a href="#"><%=__('contactame') %>Contactame</a></li>
+          <li><a href="#"><%=__('inicio') %></a></li>
+          <li><a href="#"><%=__('sobreMi') %></a></li>
+          <li><a href="#"><%=__('formacion') %></a></li>
+          <li><a href="#"><%=__('habilidades') %></a></li>
+          <li><a href="#"><%=__('contactame') %></a></li>
         </ul>
       
       </nav>
   
       <div class="content">
-        <h4><%=__('holaNombre') %>Hola, mi nombre es</h4>
-        <h1><%=__('nombre') %>José <span><%=__('apellido') %>Pérez</span></h1>
-        <h3><%=__('Desarrolador1') %>Soy un Desarrollador Web.</h3>
+        <h4><%=__('holaNombre') %></h4>
+        <h1><%=__('nombre') %><span><%=__('apellido') %></span></h1>
+        <h3><%=__('Desarrolador1') %></h3>
         <div class="newslatter">
         
         </div>
@@ -52,9 +47,9 @@
       <div class="main">
         <img src="images/main-img.jpg">
         <div class="about-text">
-          <h2><%=__('sobreMi2') %>Sobre mí</h2>
-          <h5><%=__('desarrollador2') %>Desarrolador <span><%=__('diseñador') %>& Diseñador</span></h5>
-          <p><%=__('front-end') %>Soy un desarrollador web front-end. Puedo proporcionar un código limpio y un diseño perfecto de píxeles. También hago que el sitio web sea cada vez más interactivo con animaciones web. Puedo proporcionar un código limpio y un diseño perfecto de píxeles. También hago que el sitio web sea cada vez más interactivo con animaciones web. Un diseño receptivo hace que su sitio web sea accesible para todos los usuarios, independientemente de su dispositivo.</p>
+          <h2><%=__('sobreMi2') %></h2>
+          <h5><%=__('desarrollador2') %><span><%=__('diseñador') %></span></h5>
+          <p><%=__('front-end') %></p>
           
         </div>
       </div>
@@ -63,15 +58,15 @@
     <!-----service section start----------->
     <div class="service">
       <div class="title">
-        <h2><%=__('estudios') %>Estudios</h2>
+        <h2><%=__('estudios') %></h2>
       </div>
   
       <div class="box">
         <div class="card">
           <i class="fas fa-bars"></i>
-          <h5><%=__('bachillerato') %>Bachillerato</h5>
+          <h5><%=__('bachillerato') %></h5>
           <div class="pra">
-            <p><%=__('bachillerato1) %>Graduado en Bachillerato, en el liceo "Juan Jacobo Rousseau", con un promedio de 17.5</p>
+            <p><%=__('bachillerato1) %></p>
   
             <p style="text-align: center;">
           
@@ -81,9 +76,9 @@
   
         <div class="card">
           <i class="far fa-user"></i>
-          <h5><%=__('uni') %>Universidad</h5>
+          <h5><%=__('uni') %></h5>
           <div class="pra">
-            <p><%=__('univeridad') %>Graduado con honores en la Universidad Rómulo Gallegos</p>
+            <p><%=__('univeridad') %></p>
   
             <p style="text-align: center;">
           
@@ -93,9 +88,9 @@
   
         <div class="card">
           <i class="far fa-bell"></i>
-          <h5><%=__('postgrado') %>Postgrado</h5>
+          <h5><%=__('postgrado') %></h5>
           <div class="pra">
-            <p><%=__('postgrado1') %>Postgrado en Gestión de Desarrollo, en la Universidad Central de Venezuela</p>
+            <p><%=__('postgrado1') %></p>
   
             <p style="text-align: center;">
           
@@ -107,19 +102,19 @@
   
     <!------Habilidades------>
     <div class="contact-me">
-      <h1><%=__('habilidades1') %>Habilidades</h1>
-      <p id="skills"><%=__('habilidades2') %>Tengo habilidades en el manejo de HTML, Hyper Text Markup Language, que no es un lenguaje de programación, pero es la base para lenguajes como CSS, del cual tengo conocimiento, para estilizar paginas web al gusto del cliente y Javascript para hacer animaciones y darle funcionalidad a la pagina Web. Cuemto con Habilidades de Edición en Photshoot, AfterEffects y AdobeIllustrartor</p>
+      <h1><%=__('habilidades1') %></h1>
+      <p id="skills"><%=__('habilidades2') %></p>
       
     </div>
     
     <div class="background">
       <div class="form">
-        <h2 id="titulo"><%=__('formulario') %> Formulario</h2>
+        <h2 id="titulo"><%=__('formulario') %></h2>
         <form method='post'action='/' id="survey-form" >
         <div class="label">
-              <input name='nombre' type="text"  placeholder="Ingrese su Nombre"<%=__('nombreformulario') %> value="<%= ct.nombre%>" required="true">
-              <input type="email" name='email' placeholder="inserta email"<%=__('email') %> value="<%= ct.email%>" required="true">
-              <input  name='comentario' type="text" placeholder="Comentario"<%=__('comentario') %> value="<%= ct.comentario%>" required="true">
+              <input name='nombre' type="text"  placeholder="<%=__('nombreformulario') %>" value="<%= ct.nombre%>" required="true">
+              <input type="email" name='email' placeholder="<%=__('email') %>"" value="<%= ct.email%>" required="true">
+              <input  name='comentario' type="text" placeholder="<%=__('comentario') %>" value="<%= ct.comentario%>" required="true">
               <input type="hidden" value="<%= modelo.ipdire%>">
               <input type="hidden"  value="<%= modelo.fecha%>">
               <input type="hidden"  value="<%= modelo.geoloca%>">
@@ -135,14 +130,20 @@
     </div>
     <!------footer--------->
     <footer>
-      <p><%=__('nombre2') %>José Pérez</p>
-      <p><%=__('mas') %>Para más HTML, CSS, y código - por favor clikea abajo</p>
+      <p><%=__('nombre2') %></p>
+      <p><%=__('mas') %></p>
       <div class="social">
         <a href="#"><i class="fab fa-facebook-f"></i></a>
         <a href="#"><i class="fab fa-instagram"></i></a>
         <a href="#"><i class="fab fa-dribbble"></i></a>
       </div>
-      <p class="end"><%=__('copyRight') %>CopyRight By José Pérez</p>
+
+      <div class="translate">
+        <button onclick="window.location.href='/translate'"><%= __('traducir') %></button>
+      </div>
+    
+
+      <p class="end"><%=__('copyRight') %></p>
     </footer>
   </body>
 </html>
