@@ -3,10 +3,9 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
-
-const dotenv = require ('dotenv');
-dotenv.config({path:'./env/.env'});
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
+require('dotenv').config()
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -19,32 +18,13 @@ app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(express.json());
+app.set('trust proxy', true);
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static('public/stylesheets'));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-
-// Invocando bcryptjs
-
-const bcryptjs = require('bcryptjs')
-
-// Invocando sesiones
-
-const session = require('express-session')
-app.use(session({
-    secret:'secret',
-    resave:'true',
-    saveUninitialized:true
-}));
-
-//DATABASE
-
-const connection = require('./basedb/db');
-const { default: i18next } = require('i18next');
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

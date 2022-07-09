@@ -5,7 +5,6 @@ const http=require('http');
 const path = require('path');
 const geoip = require('geoip-lite');
 const nodemailer = require('nodemailer');
-const { request } = require('http');
 const fetch = require('node-fetch');
 const passport = require('passport');
 const cookieParser = require('cookie-parser');
@@ -241,6 +240,27 @@ router.get('/',(req,res) => {
 })
 });
 
+let translate = false;
+
+router.get('/',(req,res) => {
+  i18n.init(req, res);
+  translate = req.acceptsLanguages('es');
+  res.render('index.ejs',{modelo:{}})
+});
+
+router.get('/translate',(req,res,next)=>{
+	if(translate){
+	  i18n.init(req, res)
+	  translate = false;
+	  res.setLocale('en');
+	  res.render('index.ejs',{modelo:{}});
+  }else if(!translate){
+    i18n.init(req, res);
+	  res.setLocale('es');
+	  translate = true;
+	  res.render('index',{modelo:{}});
+  }
+});
 
 module.exports = router;
 
